@@ -14,7 +14,7 @@ export const basicObservable = Rx.Observable
 
 export const basicObserver = {
   next(value) {
-    console.log(value);
+    console.log('basic', value);
   },
   error(err) {
     console.log(err);

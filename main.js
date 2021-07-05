@@ -12,7 +12,9 @@ import {
 
 import {
   clickSource,
-  example
+  example,
+  skipSource,
+  startSource
 } from './drag.js';
 
 import { Producer } from './producer.js';
@@ -23,7 +25,34 @@ runSource.subscribe(runObserver);
 
 runSourceFrom.subscribe(runObserver);
 
-example.subscribe(basicObserver);
+let number = 0;
+
+const testObserver = {
+  next(value) {
+    console.log(number);
+    if (value >= 11) {
+      this.complete();
+    } else {
+      number += value;
+    }
+  },
+  error(err) {
+    console.log(err);
+  },
+  complete() {
+    console.log('Complete');
+  }
+};
+
+startSource.subscribe(basicObserver);
+
+const subscription = skipSource.subscribe((val) => {
+  // console.log(subscription);
+  console.log(val);
+  if (val >= 11) {
+    subscription.unsubscribe();
+  }
+});
 
 
 document.querySelector('#app').innerHTML = `
